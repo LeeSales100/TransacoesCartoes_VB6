@@ -1,0 +1,117 @@
+Private Sub Combo1_Change()
+
+End Sub
+
+Private Sub cmdConsultar_Click()
+    Dim rs As ADODB.Recordset
+    Dim sql As String
+    Dim criterio As String
+    Call AbrirConexao
+    Select Case cboFiltros.Text
+        Case "Número do Cartão"
+            criterio = Trim(txtNumeroCartao.Text)
+            If criterio = "" Then
+                MsgBox "Digite o número do cartão.", vbExclamation
+                Exit Sub
+            End If
+            sql = "SELECT * FROM Transacoes WHERE nr_cartao = '" & criterio & "'"
+         
+
+        Case "Data da Transação"
+            criterio = Trim(mskData.Text)
+            If criterio = "" Or criterio Like "__/__/____" Then
+                MsgBox "Informe a data corretamente.", vbExclamation
+                Exit Sub
+            End If
+            sql = "SELECT * FROM Transacoes " & _
+                  "WHERE CONVERT(VARCHAR, Dt_Transacao, 103) = '" & criterio & "'"
+
+        Case "Valor da Transação"
+            criterio = Trim(txtValor.Text)
+            If Not IsNumeric(criterio) Then
+                MsgBox "Digite um valor numérico válido.", vbExclamation
+                Exit Sub
+            End If
+            criterio = Replace(criterio, ",", ".")
+            sql = "SELECT * FROM Transacoes WHERE Vl_Transacao = " & criterio
+
+        Case "Status da Transação"
+            criterio = Trim(cboStatus.Text)
+            If criterio = "" Then
+                MsgBox "Selecione um status de transação.", vbExclamation
+                Exit Sub
+            End If
+            sql = "SELECT * FROM Transacoes WHERE St_Transacao = '" & criterio & "'"
+
+        Case Else
+            MsgBox "Filtro desconhecido.", vbCritical
+            Exit Sub
+    End Select
+
+    Set rs = New ADODB.Recordset
+    rs.CursorLocation = adUseClient
+    rs.Open sql, cn, adOpenStatic, adLockReadOnly
+
+    If rs.EOF Then
+        MsgBox "Nenhum registro encontrado.", vbInformation
+        Exit Sub
+    End If
+    
+
+    Set grdTransacoes.DataSource = rs
+    grdTransacoes.Visible = True
+    grdTransacoes.Refresh
+    'Call FecharConexao
+End Sub
+Private Sub Form_Load()
+    txtNumeroCartao.MaxLength = 16
+    cboFiltros.Clear
+    cboFiltros.AddItem "Número do Cartão"
+    cboFiltros.AddItem "Data da Transação"
+    cboFiltros.AddItem "Valor da Transação"
+    cboFiltros.AddItem "Status da Transação"
+    cboFiltros.ListIndex = 0 ' Seleciona o primeiro item por padrão
+
+    cboStatus.Clear
+    cboStatus.AddItem "APROVADA"
+    cboStatus.AddItem "PENDENTE"
+    cboStatus.AddItem "CANCELADA"
+    cboStatus.ListIndex = 0 ' Seleciona "Aprovada" por padrão
+
+
+End Sub
+
+Private Sub cboFiltros_Click()
+    Call AtualizarCamposDoFiltro
+End Sub
+
+Private Sub AtualizarCamposDoFiltro()
+    ' Oculta todos os cabompos primeiro
+    txtNumeroCartao.Visible = False
+    mskData.Visible = False
+    txtValor.Visible = False
+    cboStatus.Visible = False
+
+    Select Case cboFiltros.Text
+        Case "Número do Cartão"
+            lblCampoFiltro.Caption = "Digite o número do cartão:"
+            txtNumeroCartao.Visible = True
+            txtNumeroCartao.Text = ""
+
+        Case "Data da Transação"
+            lblCampoFiltro.Caption = "Informe a data (dd/mm/yyyy):"
+            mskData.Visible = True
+            mskData.Text = "__/__/____"
+
+        Case "Valor da Transação"
+            lblCampoFiltro.Caption = "Digite o valor da transação:"
+            txtValor.Visible = True
+            txtValor.Text = ""
+
+        Case "Status da Transação"
+            lblCampoFiltro.Caption = "Selecione o status:"
+            cboStatus.Visible = True
+            cboStatus.ListIndex = 0
+    End Select
+End Sub
+
