@@ -127,7 +127,7 @@ Private Sub MnuExport_Click()
 
     ' --- SALVA ARQUIVO COM DATA NO NOME ---
     Dim caminho As String
-    caminho = "C:\ProjetoTC\CartoesTC\PLAN\Exp_" & Format(dataInicial, "yyyy_mm") & ".xlsx"
+    caminho = "C:\Projeto_Transacoes_Cartoes_Clientes\ExcelGerado\Export_" & Format(dataInicial, "yyyy_mm") & ".xlsx"
     xlWB.SaveAs caminho
 
     ' --- FINALIZA ---
