@@ -22,7 +22,14 @@ Rode todos os .sql constantes na pasta scripts
 --
 🖥️ Rodando o Projeto
 
-O projeto deve ser instalado em: C:\ProjetoTC\CartoesTC\PROJETO
+A seguinte estrutura deverá ser criada na pasta raiz ( C: )
+                                                      
+- Projeto_Transacoes_Cartoes_Clientes
+     - ExcelGerado
+     - Projeto
+     - Scripts
+
+O projeto deve ser instalado em: C:\Projeto_Transacoes_Cartoes_Clientes\Projeto
 
 1️⃣ Abra o arquivo .vbp no Visual Basic 6.
 
