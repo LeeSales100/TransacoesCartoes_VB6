@@ -39,7 +39,7 @@ Menu: Project → References
 
 Confirme se a biblioteca Microsoft ActiveX Data Objects x.x Library está marcada.
 
-- Troque **SEU_SERVIDOR**, **NOME_BANCO**, **USUARIO**, **SENHA** para os valores reais ou exemplos no moduloconecta.bas
+- Troque **SEU_SERVIDOR**, **SEU USUARIO**, **SUA SENHA** para os valores reais ou exemplos no moduloconecta.bas
 
 STRING DE CONEXÃO: sStrCon = "Provider=SQLOLEDB;Data Source=SEU SERVIDOR;Initial Catalog=CartoesTC;User ID=SEU USUARIO;Password=SUA SENHA"
 
